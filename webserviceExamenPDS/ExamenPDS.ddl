@@ -1,0 +1,18 @@
+ALTER TABLE Token DROP FOREIGN KEY FKToken15334;
+ALTER TABLE Consulta DROP FOREIGN KEY FKConsulta533919;
+ALTER TABLE Consulta DROP FOREIGN KEY FKConsulta901396;
+ALTER TABLE Consulta DROP FOREIGN KEY FKConsulta879078;
+DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS Token;
+DROP TABLE IF EXISTS Palabra;
+DROP TABLE IF EXISTS Consulta;
+DROP TABLE IF EXISTS Traduccion;
+CREATE TABLE Usuario (id int(10) NOT NULL comment 'Id Usuario', username varchar(255) NOT NULL UNIQUE comment 'Username', password varchar(255) NOT NULL comment 'Password', PRIMARY KEY (id)) comment='Usuario';
+CREATE TABLE Token (id int(10) NOT NULL comment 'Id token', token varchar(255) NOT NULL UNIQUE comment 'token', tiempo_inicio bigint(20) NOT NULL comment 'tiempo de inicio', Usuarioid int(10) NOT NULL, PRIMARY KEY (id)) comment='Token';
+CREATE TABLE Palabra (id int(10) NOT NULL comment 'id de la palabra', espanol varchar(255) NOT NULL comment 'palabra en idioma espanol', mapudungun varchar(255) NOT NULL comment 'palabra en mapudungun', PRIMARY KEY (id)) comment='Palabra';
+CREATE TABLE Consulta (id int(10) NOT NULL comment 'Id de la consulta', fecha date NOT NULL comment 'Fecha de la consulta', Tokenid int(10) NOT NULL, Palabraid int(10) NOT NULL, Traduccionid int(10) NOT NULL, PRIMARY KEY (id)) comment='Consulta de una palabra';
+CREATE TABLE Traduccion (id int(10) NOT NULL comment 'Id traduccion', traduccion varchar(255) NOT NULL UNIQUE comment 'Traduccion', PRIMARY KEY (id)) comment='Traduccion';
+ALTER TABLE Token ADD INDEX FKToken15334 (Usuarioid), ADD CONSTRAINT FKToken15334 FOREIGN KEY (Usuarioid) REFERENCES Usuario (id);
+ALTER TABLE Consulta ADD INDEX FKConsulta533919 (Tokenid), ADD CONSTRAINT FKConsulta533919 FOREIGN KEY (Tokenid) REFERENCES Token (id);
+ALTER TABLE Consulta ADD INDEX FKConsulta901396 (Palabraid), ADD CONSTRAINT FKConsulta901396 FOREIGN KEY (Palabraid) REFERENCES Palabra (id);
+ALTER TABLE Consulta ADD INDEX FKConsulta879078 (Traduccionid), ADD CONSTRAINT FKConsulta879078 FOREIGN KEY (Traduccionid) REFERENCES Traduccion (id);
